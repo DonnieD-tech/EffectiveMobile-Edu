@@ -5,7 +5,6 @@ import xlrd
 from models.spimex_trading_results_model import SpimexTradingResult
 from models.database import SessionLocal
 
-cnt = 1;
 
 def normalize_header(name):
     if not name:
