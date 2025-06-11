@@ -21,3 +21,30 @@ class BreedViewSet(viewsets.ModelViewSet):
         """Возвращает queryset с аннотацией dog_count — количество собак данной породы."""
 
         return Breed.objects.annotate(dog_count=Count("dogs"))
+
+
+class DogViewSet(viewsets.ModelViewSet):
+    """ViewSet для управления объектами модели Dog.
+
+    Позволяет выполнять операции:
+    - Получение списка собак
+    - Создание новой собаки
+    - Получение, обновление и удаление конкретной собаки
+    """
+
+    queryset = Dog.objects.all()
+    serializer_class = DogSerializer
+
+    def get_queryset(self):
+        """Возвращает queryset с аннотациями:
+        - breed_name: имя породы
+        - same_breed_count: количество собак той же породы
+        """
+
+        same_breed_count = (
+            Dog.objects.filter(breed=OuterRef("breed")).values("breed").annotate(count=Count("id")).values("count")
+        )
+        return Dog.objects.annotate(
+            same_breed_count=Subquery(same_breed_count[:1]),
+            breed_name=Subquery(Breed.objects.filter(id=OuterRef("breed_id")).values("name")[:1]),
+        )
