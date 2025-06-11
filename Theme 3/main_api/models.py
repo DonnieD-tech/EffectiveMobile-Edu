@@ -28,3 +28,30 @@ class Breed(models.Model):
         """Возвращает строковое представление породы."""
 
         return self.name
+
+
+class Dog(models.Model):
+    """Модель, представляющая собаку.
+
+    Атрибуты:
+        name (str): Имя собаки.
+        age (int): Возраст собаки.
+        breed (Breed): Внешний ключ на породу.
+        gender (str): Пол собаки.
+        color (str): Окрас собаки.
+        favorite_food (str): Любимая еда собаки.
+        favorite_toy (str): Любимая игрушка собаки.
+    """
+
+    name = models.CharField(max_length=255)
+    age = models.PositiveIntegerField()
+    breed = models.ForeignKey(Breed, related_name="dogs", on_delete=models.CASCADE)
+    gender = models.CharField(max_length=10)
+    color = models.CharField(max_length=100)
+    favorite_food = models.CharField(max_length=255)
+    favorite_toy = models.CharField(max_length=255)
+
+    def __str__(self):
+        """Возвращает строковое представление собаки."""
+
+        return self.name
