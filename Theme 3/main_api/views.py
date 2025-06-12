@@ -1,4 +1,4 @@
-from django.db.models import Count, OuterRef, Subquery
+from django.db.models import Count, OuterRef, Subquery, Avg
 from rest_framework import viewsets
 
 from .models import Breed, Dog
@@ -42,9 +42,20 @@ class DogViewSet(viewsets.ModelViewSet):
         """
 
         same_breed_count = (
-            Dog.objects.filter(breed=OuterRef("breed")).values("breed").annotate(count=Count("id")).values("count")
+            Dog.objects.filter(breed=OuterRef("breed"))
+            .values("breed")
+            .annotate(count=Count("id")).values("count")
         )
+
+        avg_age_by_breed = (
+            Dog.objects.filter(breed=OuterRef("breed"))
+            .values("breed")
+            .annotate(avg_age=Avg("age"))
+            .values("avg_age")
+        )
+
         return Dog.objects.annotate(
             same_breed_count=Subquery(same_breed_count[:1]),
             breed_name=Subquery(Breed.objects.filter(id=OuterRef("breed_id")).values("name")[:1]),
+            avg_age_by_breed=Subquery(avg_age_by_breed[:1]),
         )

@@ -18,6 +18,7 @@ class DogSerializer(serializers.ModelSerializer):
 
     breed_name = serializers.CharField(source="breed.name", read_only=True)
     same_breed_count = serializers.IntegerField(read_only=True)
+    avg_age_by_breed = serializers.FloatField(read_only=True)
 
     class Meta:
         model = Dog
@@ -32,4 +33,5 @@ class DogSerializer(serializers.ModelSerializer):
             "favorite_toy",
             "breed_name",
             "same_breed_count",
+            "avg_age_by_breed"
         ]
