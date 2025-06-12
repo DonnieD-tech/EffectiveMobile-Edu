@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 import sys
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +22,12 @@ sys.path.append(str(BASE_DIR))
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(+q03dmg^$o%4ix!h=0c44=+d^v@r*%u=8&93_5kpw!px*epcz'
+SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-secret")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG") == "1"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
 
 # Application definition
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'main_api',
+    'dotenv',
 ]
 
 MIDDLEWARE = [
@@ -77,13 +79,13 @@ WSGI_APPLICATION = 'dog_api.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DATABASE_NAME", "dogs"),
-        "USER": os.getenv("DATABASE_USER", "postgres"),
-        "PASSWORD": os.getenv("DATABASE_PASSWORD", "1234"),
-        "HOST": os.getenv("DATABASE_HOST", "localhost"),
-        "PORT": os.getenv("DATABASE_PORT", "5432"),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT'),
     }
 }
 
