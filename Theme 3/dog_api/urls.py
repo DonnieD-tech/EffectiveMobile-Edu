@@ -3,7 +3,6 @@ from rest_framework.routers import DefaultRouter
 
 from main_api.views import BreedViewSet, DogViewSet
 
-
 router = DefaultRouter()
 router.register(r"dogs", DogViewSet)
 router.register(r"breeds", BreedViewSet)

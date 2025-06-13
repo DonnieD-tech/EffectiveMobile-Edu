@@ -1,4 +1,4 @@
-from django.db.models import Count, OuterRef, Subquery, Avg
+from django.db.models import Avg, Count, OuterRef, Subquery
 from rest_framework import viewsets
 
 from .models import Breed, Dog
