@@ -1,0 +1,15 @@
+[tool.ruff]
+
+line-length = 119
+target-version = "py310"
+
+select = [
+    "E",
+    "F",
+    "W",
+    "I",
+    "UP",
+    "DJ",
+]
+
+ignore = ["E203"]
