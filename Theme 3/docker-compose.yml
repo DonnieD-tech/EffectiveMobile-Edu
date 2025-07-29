@@ -1,10 +1,11 @@
 version: '3.11'
 
+
 services:
   db:
     image: postgres:14
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data/
     env_file:
       - .env
     ports:
@@ -15,10 +16,15 @@ services:
     build: .
     command: >
       sh -c "
-        python wait_for_db.py &&
-        python manage.py migrate &&
-        python manage.py runserver 0.0.0.0:8000
-      "
+              echo '⏳ Ждём базу...' &&
+              python wait_for_db.py &&
+              echo '✅ Генерируем миграции...' &&
+              python manage.py makemigrations &&
+              echo '✅ Применяем миграции...' &&
+              python manage.py migrate &&
+              echo '🚀 Запускаем сервер Django...' &&
+              python manage.py runserver 0.0.0.0:8000
+            "
     volumes:
       - .:/code
     ports:
