@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>📋 Задачи команды: {{ request.user.team.name }}</h1>
+
+    {% if tasks %}
+        <table border="1" cellpadding="5">
+            <tr>
+                <th>Название</th>
+                <th>Исполнитель</th>
+                <th>Статус</th>
+                <th>Дедлайн</th>
+            </tr>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.assignee.first_name }} {{ task.assignee.last_name }}</td>
+                <td>{{ task.get_status_display }}</td>
+                <td>{{ task.deadline|date:"d.m.Y H:i" }}</td>
+                <td>
+                {% if request.user.role == "manager" or request.user.role == "admin_team" %}
+                    <a href="{% url 'task_update' task.id %}">✏ Редактировать</a>
+                {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Пока задач нет 👌</p>
+    {% endif %}
+
+    <p>
+        <a href="{% url 'task_create' %}" class="btn btn-primary">➕ Новая задача</a>
+        {% if request.user.team %}
+            <a href="{% url 'team_detail' request.user.team.id %}" class="btn btn-secondary">⬅ Назад в команду</a>
+        {% endif %}
+    </p>
+
+{% endblock %}

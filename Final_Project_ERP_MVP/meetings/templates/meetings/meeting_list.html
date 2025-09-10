@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="full-page">
+      <h2>👥 Мои встречи</h2>
+      {% if meetings %}
+        <table border="1" cellpadding="6">
+          <tr>
+            <th>Название</th>
+            <th>Дата и время</th>
+            <th>Создатель</th>
+            <th>Участники</th>
+            <th>Описание</th>
+            <th>Действия</th>
+          </tr>
+          {% for meeting in meetings %}
+          <tr>
+            <td>
+              {{ meeting.title }}
+            </td>
+            <td>
+              {{ meeting.start_time|date:"d.m.Y H:i" }} –
+              {{ meeting.end_time|date:"H:i" }}
+            </td>
+            <td>{{ meeting.created_by.name|default:meeting.created_by.email }}</td>
+            <td>
+              {% for p in meeting.participants.all %}
+                {{ p.name|default:p.email }}{% if not forloop.last %}, {% endif %}
+              {% empty %}
+                —
+              {% endfor %}
+            </td>
+            <td>{{ meeting.description|truncatewords:12|default:"—" }}</td>
+            <td>
+              {% if user == meeting.created_by %}
+                <a href="{% url 'meeting_cancel' meeting.id %}">Отменить</a>
+              {% else %}
+                  —
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      {% else %}
+        <p>У вас пока нет встреч.</p>
+      {% endif %}
+
+      {% if request.user.role in "admin_team manager" %}
+        <p><a href="{% url 'meeting_create' %}" class="btn btn-secondary">📌 Назначить встречу</a></p>
+      {% endif %}
+      <a href="{% url 'user_detail' %}">⬅ Назад в профиль</a>
+    </div>
+
+{% endblock %}
+

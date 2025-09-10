@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load dict_extras %}
+
+{% block content %}
+    <h1>📆 Календарь</h1>
+    <h2>{{ current_month_name }} {{ current_year }}</h2>
+
+    <div style="margin-bottom: 15px;">
+        <a href="?year={{ prev_month.year }}&month={{ prev_month.month }}">← Предыдущий</a> |
+        <a href="?year={{ next_month.year }}&month={{ next_month.month }}">Следующий →</a>
+    </div>
+
+    <table border="1" cellpadding="6" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Понедельник</th>
+                <th>Вторник</th>
+                <th>Среда</th>
+                <th>Четверг</th>
+                <th>Пятница</th>
+                <th>Суббота</th>
+                <th>Воскресенье</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for week in calendar %}
+            <tr>
+                {% for day in week %}
+                <td valign="top" style="min-width:120px; height:100px;">
+                    {% if day %}
+                        <a href="{% url 'day_calendar' day.year day.month day.day %}">
+                            {{ day.day }}
+                        </a>
+                        <ul style="margin: 5px 0; padding-left: 15px;">
+                            {% with events=events_by_day|get_item:day.isoformat %}
+                                {% if events %}
+                                    {% for event in events %}
+                                        <li>
+                                            {% if event.title %}
+                                                {{ event.title }}
+                                            {% else %}
+                                                {{ event }}
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+                        </ul>
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'user_detail' %}">⬅ Назад в профиль</a>
+
+{% endblock %}

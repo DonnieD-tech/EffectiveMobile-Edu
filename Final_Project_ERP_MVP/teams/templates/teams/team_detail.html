@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>🤝 Команда: {{ team.name }}</h1>
+    <p>⭐ Код для приглашения: {{ team.invite_code }}</p>
+
+    <hr>
+
+    <h2>👥 Участники:</h2>
+    <ul>
+        {% for member in members %}
+            <li>{{ member.first_name }} {{ member.last_name }} — {{ member.get_role_display }}</li>
+        {% empty %}
+            <li>В команде пока нет участников.</li>
+        {% endfor %}
+    </ul>
+
+    {% if request.user.is_superuser %}
+        <div class="btn-group" role="group">
+            <a href="{% url 'team_manage_roles' team.id %}" class="btn btn-secondary">
+                ⚡ Управление ролями
+            </a>
+            <a href="{% url 'team_edit' team.id %}" class="btn btn-primary">
+                ✏️ Редактировать команду
+            </a>
+        </div>
+    {% endif %}
+
+
+    {% if not request.user.is_superuser %}
+        <hr>
+        <h2><a href="{% url 'task_list' %}">📋 Задачи команды</a></h2>
+
+        {% if tasks %}
+        <table border="1" cellpadding="5">
+            <tr>
+                <th>Название</th>
+                <th>Исполнитель</th>
+                <th>Статус</th>
+                <th>Дедлайн</th>
+            </tr>
+            {% for task in tasks %}
+            <tr>
+                <td><a href="{% url 'task_detail' task.pk %}">{{ task.title }}</a></td>
+                <td>{{ task.assignee.first_name }} {{ task.assignee.last_name }}</td>
+                <td>{{ task.get_status_display }}</td>
+                <td>{{ task.deadline|date:"d.m.Y H:i" }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>Задач пока нет 👌</p>
+        {% endif %}
+
+    <p>
+        {% if request.user.role == "manager" %}
+        <a href="{% url 'task_create' %}" class="btn btn-primary">➕ Новая задача</a>
+        {% endif %}
+    </p>
+    {% endif %}
+
+    <a href="{% url 'user_detail' %}">⬅ Назад в профиль</a>
+
+{% endblock %}
+

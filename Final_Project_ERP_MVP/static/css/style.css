@@ -1,0 +1,270 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f8f9fa;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.page-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;   /* центрируем по горизонтали */
+    justify-content: flex-start; /* центрируем по вертикали */
+    min-height: auto;     /* растягиваем на всю высоту экрана */
+    gap: 20px;             /* расстояние между элементами */
+    text-align: center;    /* выравнивание текста */
+    background: none;   /* убираем фон карточки */
+    box-shadow: none;   /* убираем тени */
+    box-sizing: border-box;
+    border: none;       /* убираем рамки */
+    padding: 0;         /* убираем лишние отступы */
+    padding-bottom: 50px;
+    width: 100%;        /* не тянем форму */
+}
+
+
+.page-container hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+    width: 100%;       /* на всю ширину контейнера */
+    display: block;    /* гарантируем, что hr будет блочным элементом */
+}
+
+.page-footer {
+    margin-top: 50px; /* отступ от контента до линии */
+}
+
+.page-footer hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 70px 0;
+    width: 100%;
+    display: block;
+}
+
+
+h1, h2, h3 {
+    font-weight: 600;
+    color: #333;
+}
+
+
+.btn {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+.btn-secondary:hover {
+    background-color: #565e64;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+.btn-danger:hover {
+    background-color: #a71d2a;
+}
+
+
+.btn-group {
+    display: flex;
+    gap: 8px;
+}
+
+.team-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 12px 16px;
+    width: 250px;
+    flex-shrink: 0;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+
+}
+
+.card-title {
+    font-weight: bold;
+    margin: 0;
+}
+
+.card-code {
+    font-size: 14px;
+    color: #555
+}
+
+
+.btn {
+    padding: 5px 10px;
+    background-color: #0d6efd;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    flex-shrink: 0;
+    align-self: center;
+    margin-top: 6px;
+}
+
+.btn:hover {
+    background-color: #0b5ed7;
+}
+
+
+form {
+    max-width: 400px;
+    width: 100%;
+    margin: 20px auto;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+
+form h2 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+}
+
+.full-page {
+    min-height: calc(100vh - 300px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+hr {
+    border: none;               /* убираем дефолт */
+    border-top: 1px solid #ccc; /* рисуем свою линию */
+    margin: 20px 0;             /* отступы сверху и снизу */
+}
+
+
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #444;
+}
+
+
+form .btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+
+
+.messages {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 0;
+    list-style: none;
+}
+
+
+.messages li {
+    box-sizing: border-box;
+    text-align: center;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: white;
+}
+
+
+.messages li.success {
+    background-color: #28a745;
+}
+
+.messages li.error {
+    background-color: #dc3545;
+}
+
+.messages li.warning {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.messages li.info {
+    background-color: #17a2b8;
+}
+
+nav {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: -20px;
+}
+nav a {
+    text-decoration: none;
+    color: #007bff;
+}
+nav a:hover {
+    text-decoration: underline;
+}
+

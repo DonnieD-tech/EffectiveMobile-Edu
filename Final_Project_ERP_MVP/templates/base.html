@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}ERP (MVP edition){% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="page-container">
+    <nav>
+        {% if not user.is_authenticated %}
+            <a href="{% url 'register' %}">💬 Регистрация</a> |
+        {% endif %}
+        {% if user.is_authenticated %}
+            <a href="{% url 'user_detail' %}">👤 Профиль</a> |
+            <a href="{% url 'logout' %}">❌ Выйти</a>
+        {% else %}
+            <a href="{% url 'login' %}">✅ Войти</a>	
+        {% endif %}
+    </nav>
+    <hr>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+    </div>
+    
+    <footer class="page-footer">
+        <hr>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>Отмена встречи</h2>
+    <p>Вы уверены, что хотите отменить встречу <strong>{{ meeting.title }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Да, отменить</button>
+        <a href="{% url 'meeting_detail' meeting.id %}">Нет, вернуться</a>
+    </form>
+
+{% endblock %}

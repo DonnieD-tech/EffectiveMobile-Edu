@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>➕ Создание задачи</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Создать</button>
+
+        {% if request.user.team %}
+            <a href="{% url 'team_detail' request.user.team.id %}" class="btn btn-secondary">Отмена</a>
+        {% else %}
+            <a href="{% url 'user_detail' %}" class="btn btn-secondary">Отмена</a>
+        {% endif %}
+    </form>
+
+{% endblock %}

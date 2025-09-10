@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>📋 Задачи команды {{ request.user.team.name }}</h1>
+
+<hr>
+
+<h3>➕ Добавить новую задачу</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Создать задачу</button>
+</form>
+
+<hr>
+
+<h3>📌 Список задач</h3>
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Название</th>
+        <th>Исполнитель</th>
+        <th>Статус</th>
+        <th>Дедлайн</th>
+        <th></th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+        <td>{{ task.title }}</td>
+        <td>{{ task.assignee.name }}</td>
+        <td>{{ task.get_status_display }}</td>
+        <td>{{ task.deadline|date:"d.m.Y H:i" }}</td>
+        <td><a href="{% url 'task_detail' task.id %}">🔎 Подробнее</a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">Задач пока нет</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

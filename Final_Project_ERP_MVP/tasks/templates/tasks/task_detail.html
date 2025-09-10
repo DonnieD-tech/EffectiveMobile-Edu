@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>📝 Задача: {{ task.title }}</h1>
+    <p>Описание: {{ task.description }}</p>
+    <p>Исполнитель: {{ task.assignee.first_name }} {{ task.assignee.last_name }}</p>
+    <p>Статус: {{ task.get_status_display }}</p>
+    <p>Дедлайн: {{ task.deadline|date:"d.m.Y H:i" }}</p>
+
+    {% if can_edit %}
+        <a href="{% url 'task_update' task.id %}" class="btn btn-primary">✏ Редактировать</a>
+        <a href="{% url 'task_delete' task.id %}" class="btn btn-danger" onclick="return confirm('Вы точно хотите удалить задачу?');">🗑 Удалить</a>
+    {% endif %}
+
+    <hr>
+
+    {% if can_change_status %}
+        <h3>⚡ Статус задачи</h3>
+        <form method="post" action="{% url 'task_change_status' task.id %}" style="display:inline">
+            {% csrf_token %}
+            <select name="status">
+                {% for value, label in task.Status.choices %}
+                    <option value="{{ value }}" {% if task.status == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-secondary">🔄 Изменить статус</button>
+        </form>
+    {% endif %}
+
+    <hr>
+
+    <h3>📊 Оценки</h3>
+
+    {% for evaluation in evaluations %}
+        <p><strong>{{ evaluation.user.first_name }} {{ evaluation.user.last_name }}:</strong> {{ evaluation.score }} <em>({{ evaluation.created_at|date:"d.m.Y H:i" }})</em></p>
+    {% empty %}
+        <p>Пока оценок нет</p>
+    {% endfor %}
+
+    {% if can_add_evaluation %}
+        <hr>
+        <h4>➕ Добавить оценку</h4>
+        <form method="post" action="{% url 'evaluation_add' task.id request.user.id %}">
+            {% csrf_token %}
+            {{ evaluation_form.as_p }}
+            <button type="submit" class="btn btn-primary">Добавить оценку</button>
+        </form>
+    {% endif %}
+
+    <a href="{% url 'team_detail' pk=task.team.id %}" class="btn btn-light">⬅ Назад к задачам</a>
+
+    <hr>
+
+    <h3>💬 Комментарии</h3>
+
+    {% for comment in task.comments.all %}
+        <p><strong>{{ comment.author.first_name }} {{ comment.author.last_name }}:</strong> {{ comment.content }} <em>({{ comment.created_at|date:"d.m.Y H:i" }})</em></p>
+    {% empty %}
+        <p>Пока комментариев нет</p>
+    {% endfor %}
+
+    <form method="post" action="{% url 'task_comment_create' task.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Добавить комментарий</button>
+    </form>
+
+{% endblock %}

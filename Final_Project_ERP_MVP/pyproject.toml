@@ -1,0 +1,15 @@
+[tool.ruff]
+src = ["."]
+exclude = ["migrations", ".venv"]
+
+line-length = 88
+target-version = "py312"
+
+
+select = [
+    "E",
+    "F",
+    "B",
+    "I",
+]
+

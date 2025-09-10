@@ -1,0 +1,44 @@
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+staticfiles/
+*.mo
+
+# Virtualenv #
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+
+# PyCharm #
+.idea/
+*.iml
+
+# OS generated files #
+.DS_Store
+Thumbs.db
+
+# Python build #
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Coverage / Testing #
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+htmlcov/
+
+# Ruff / linters #
+.ruff_cache/
+.mypy_cache/
+
+# Local settings #
+*.local

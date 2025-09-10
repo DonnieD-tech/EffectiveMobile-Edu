@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>⚙️ Управление ролями команды: {{ team.name }}</h1>
+
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Имя</th>
+            <th>Email</th>
+            <th>Текущая роль</th>
+            <th>Изменить</th>
+        </tr>
+        {% for member in members %}
+        <tr>
+            <td>{{ member.first_name }} {{ member.last_name }}</td>
+            <td>{{ member.email }}</td>
+            <td>{{ member.get_role_display }}</td>
+            <td>
+                {% if member != request.user %}
+                <form method="post" style="display:inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{ member.id }}">
+                    <select name="role">
+                        {% for value, label in roles %}
+                            <option value="{{ value }}" {% if value == member.role %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-primary">Изменить</button>
+                </form>
+                {% else %}
+                    (Нельзя изменить самому себе)
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{% url 'team_detail' team.id %}">⬅ Назад к команде</a>
+
+{% endblock %}

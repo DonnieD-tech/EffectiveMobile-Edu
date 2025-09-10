@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2>🛠️ Редактирование команды</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить изменения</button>
+    </form>
+
+    <hr>
+
+    <h3>➕ Добавить участника</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ add_member_form.as_p }}
+        <button type="submit" name="add_member">Добавить</button>
+    </form>
+
+    <hr>
+
+    <h3>👥 Участники</h3>
+    <ul>
+        {% for member in members %}
+            <li>
+                {{ member.first_name }} {{ member.last_name }} ({{ member.get_role_display }})
+                <form method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" name="remove_member" value="{{ member.id }}">
+                        Удалить
+                    </button>
+                </form>
+            </li>
+        {% empty %}
+            <li>Нет участников</li>
+        {% endfor %}
+    </ul>
+
+
+    <a href="{% url 'team_detail' team.id %}">⬅ Назад к команде</a>
+
+{% endblock %}
